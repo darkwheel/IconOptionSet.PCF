@@ -2,6 +2,7 @@ import {IInputs, IOutputs} from "./generated/ManifestTypes";
 import  IconOptionsetControl, {IIconOptionsetProps, IIconSetup } from "./IconOptionsetControl";
 import { createRoot, Root } from 'react-dom/client';
 import { createElement } from 'react';
+import {OptionsetIcons} from "./OptionsetIcons";
 
 
 
@@ -76,15 +77,9 @@ export class IconOptionset implements ComponentFramework.StandardControl<IInputs
 		let options:ComponentFramework.PropertyHelper.OptionMetadata[] 
 				= context.parameters.optionset.attributes.Options;
 
-		let icons:Array<string> = [context.parameters.icon1.raw || "",
-									context.parameters.icon2.raw || "",
-									context.parameters.icon3.raw || "",
-									context.parameters.icon4.raw || "",
-									context.parameters.icon5.raw || ""];
-
 		//Prepare Props for React Component
 		this._props.selected = this._selected;
-		this._props.icons = options.map((option,index)=>this.getIconSetup(option,icons[index]));
+		this._props.icons = options.map((option,index)=>this.getIconSetup(option));
 		this._props.selectedcolor = context.parameters.selectedcolor.raw || "";
 		this._props.readonly = isReadOnly;
 		this._props.masked = isMasked;
@@ -93,12 +88,14 @@ export class IconOptionset implements ComponentFramework.StandardControl<IInputs
 		this._root.render(createElement(IconOptionsetControl, this._props)) 
 
 	}
+	
+		
 
-	private getIconSetup(option:ComponentFramework.PropertyHelper.OptionMetadata, icon:string) : IIconSetup
+	private getIconSetup(option:ComponentFramework.PropertyHelper.OptionMetadata) : IIconSetup
 	{
+		const icon = OptionsetIcons[option.Value]?? "Group";
 		return {key:option.Value,icon:icon,text:option.Label};
 	}
-
 
 	/** 
 	 * It is called by the framework prior to a control receiving new data. 

@@ -82,10 +82,7 @@ const IconOptionsetControl = (props : IIconOptionsetProps): React.JSX.Element =>
 
     const cancelIconProps:IIconProps = {iconName:"Cancel"}
 
-    if(props.icons.length > 5)
-    {
-        return <div>ERROR : this control is designed for 5 icons or less</div>
-    }else if(props.masked){
+    if(props.masked){
         return(
             <MaskedInput/>
         )
